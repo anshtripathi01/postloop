@@ -14,6 +14,7 @@ const Header = () => {
           <Link to="/" className="text-gray-700 hover:text-amber-600">Home</Link>
           <a href="#features" className="text-gray-700 hover:text-amber-600">Features</a>
           <a href="#pricing" className="text-gray-700 hover:text-amber-600">Pricing</a>
+          <Link to="/dashboard" className="text-gray-700 hover:text-amber-600">Dashboard</Link>
         </nav>
         <div className="hidden md:flex items-center gap-4">
           <Link to="/login"><button className="text-gray-700 hover:text-amber-600">Login</button></Link>
