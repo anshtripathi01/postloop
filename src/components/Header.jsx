@@ -13,7 +13,7 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-8">
           <Link to="/" className="text-gray-700 hover:text-amber-600">Home</Link>
           <a href="#features" className="text-gray-700 hover:text-amber-600">Features</a>
-          <Link to="/pricing" className="text-gray-700 hover:text-amber-600">Pricing</Link>
+          <a href="#pricing" className="text-gray-700 hover:text-amber-600">Pricing</a>
         </nav>
         <div className="hidden md:flex items-center gap-4">
           <Link to="/login"><button className="text-gray-700 hover:text-amber-600">Login</button></Link>
@@ -26,7 +26,7 @@ const Header = () => {
           <nav className="flex flex-col px-6 py-3 gap-4">
             <Link to="/" className="text-gray-700 hover:text-amber-600">Home</Link>
             <a href="#features" className="text-gray-700 hover:text-amber-600">Features</a>
-            <Link to="/pricing" className="text-gray-700 hover:text-amber-600">Pricing</Link>
+            <a href="#pricing" className="text-gray-700 hover:text-amber-600">Pricing</a>
             <Link to="/login"><button className="w-full text-left text-gray-700 hover:text-amber-600">Login</button></Link>
             <Link to="/signup"><button className="bg-amber-500 hover:bg-amber-600 text-white px-5 py-2 rounded-xl shadow-md w-fit">Start Free</button></Link>
           </nav>
