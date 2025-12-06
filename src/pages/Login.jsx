@@ -1,31 +1,38 @@
-import { useState } from "react";
-// import api from "../api/api";
-// import { useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import api from "../utils/api";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-//   const nav = useNavigate();
+  const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const { setIsLoggedIn, setUser } = useContext(AuthContext);
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-//   const submit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const res = await api.post("/auth/login", { email, password });
-//       // cookie set by server; you can also fetch user info
-//       nav("/dashboard");
-//     } catch (err) {
-//       alert(err?.response?.data?.message || "Login failed");
-//     }
-//   };
+  const handleLogin = async () => {
+    try {
+      const res = await api.post("/auth/login", form);
+      localStorage.setItem("authToken", res.data.token);
+      setIsLoggedIn(true);
+      setUser(res.data.user);
+      navigate("/dashboard");
+    } catch (error) {
+      alert(error.response?.data?.message || "Login failed");
+    }
+  };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center">
-      <form onSubmit className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-semibold mb-4">Login</h2>
-        <input className="w-full p-2 border rounded mb-3" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
-        <input className="w-full p-2 border rounded mb-3" placeholder="Password" type="password" value={password} onChange={e=>setPassword(e.target.value)} />
-        <button className="bg-amber-500 text-white px-4 py-2 rounded w-full">Login</button>
+      
+      <form onSubmit={(e) => { e.preventDefault(); handleLogin(); }} className="flex flex-col items-center justify-center h-screen">
+      <h2 className="text-3xl font-bold mb-4">Login</h2>
+      <input className="border p-2 m-2 outline-none" placeholder="Email" name="email" onChange={handleChange} required />
+      <input className="border p-2 m-2 outline-none" placeholder="Password" name="password" type="password" onChange={handleChange} required />
+
+        <button type="submit" className="bg-amber-500 text-white px-10 py-2 rounded mt-3">
+          Login
+      </button>
       </form>
-    </div>
   );
 }

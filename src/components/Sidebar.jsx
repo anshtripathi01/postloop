@@ -1,67 +1,39 @@
-import { Link, useLocation } from "react-router-dom";
-import { Home, Calendar, Layers, Settings, LogOut } from "lucide-react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowBigRightDash, PanelLeftOpen, PanelRightClose } from "lucide-react";
 
-const Sidebar = () => {
-  const location = useLocation();
-
-  const menu = [
-    { name: "Dashboard", path: "/dashboard", icon: <Home size={18} /> },
-    { name: "Create Post", path: "/post/create", icon: <Calendar size={18} /> },
-    { name: "Scheduled Posts", path: "/scheduled", icon: <Layers size={18} /> },
-    { name: "Settings", path: "/settings", icon: <Settings size={18} /> },
-  ];
+export default function Sidebar() {
+  const [open, setOpen] = useState(false);
 
   return (
-    <aside className="
-      fixed 
-      left-0 top-0 
-      h-screen 
-      w-64 
-      bg-white 
-      border-r border-gray-200 
-      shadow-sm 
-      flex flex-col
-      z-50
-    ">
-      {/* Logo */}
-      <div className="p-6 border-b border-gray-200">
-        <h1 className="text-2xl font-bold text-amber-600">PostLoop</h1>
+    <>
+      {/* Mobile sidebar button */}
+      <div className="md:hidden p-2 bg-gray-800 text-white flex justify-between items-center shadow-md">
+        <span className="font-bold text-lg"><ArrowBigRightDash /></span>
+        <button onClick={() => setOpen(!open)}>{open ? <PanelLeftOpen /> : <PanelRightClose />}</button>
       </div>
 
-      {/* Menu */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-        {menu.map((item, index) => {
-          const active = location.pathname === item.path;
-          return (
-            <Link
-              key={index}
-              to={item.path}
-              className={`
-                flex items-center gap-3 px-4 py-3 rounded-xl font-medium 
-                transition duration-200
-                ${
-                  active
-                    ? "bg-amber-100 text-amber-700"
-                    : "text-gray-700 hover:bg-gray-100"
-                }
-              `}
-            >
-              {item.icon}
-              <span>{item.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      <aside
+        className={`fixed top-0 left-0 h-full bg-white text-amber-500 w-64 p-6 transform ${
+          open ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0 transition-transform duration-300 z-20`}
+      >
+        <h1 className="text-2xl font-bold mb-6">PostPilot</h1>
+        <nav className="flex flex-col gap-4">
+          <Link to="/dashboard" className="hover:text-amber-400">Dashboard</Link>
+          <Link to="/posts" className="hover:text-amber-400">Posts</Link>
+          <Link to="/accounts" className="hover:text-amber-400">Accounts</Link>
+          <Link to="/settings" className="hover:text-amber-400">Settings</Link>
+        </nav>
+      </aside>
 
-      {/* Logout */}
-      <div className="p-4 border-t border-gray-200">
-        <button className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-gray-700 hover:bg-gray-100 transition">
-          <LogOut size={18} />
-          Logout
-        </button>
-      </div>
-    </aside>
+      {/* Overlay on mobile */}
+      {open && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-10 md:hidden"
+          onClick={() => setOpen(false)}
+        ></div>
+      )}
+    </>
   );
-};
-
-export default Sidebar;
+}
